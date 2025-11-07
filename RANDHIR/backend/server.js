@@ -13,8 +13,10 @@ import bookingRoutes from './routes/bookings.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Load environment variables from config.env file
-dotenv.config({ path: path.join(__dirname, 'config.env') });
+// Load environment variables from config.env only in non-production
+if (process.env.NODE_ENV !== 'production' && !process.env.RENDER) {
+  dotenv.config({ path: path.join(__dirname, 'config.env') });
+}
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -36,8 +38,9 @@ app.get('/api/health', (req, res) => {
   res.json({ message: 'Server is running', timestamp: new Date().toISOString() });
 });
 
-// In production, serve frontend build
-if (process.env.NODE_ENV === 'production') {
+// In production/Render, serve frontend build
+const isProd = process.env.NODE_ENV === 'production' || !!process.env.RENDER;
+if (isProd) {
   const distPath = path.join(__dirname, '..', 'frontend', 'dist');
   app.use(express.static(distPath));
   // Serve SPA index.html for non-API routes

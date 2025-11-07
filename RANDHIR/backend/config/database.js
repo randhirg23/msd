@@ -7,8 +7,10 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Load environment variables from config.env file
-dotenv.config({ path: path.join(__dirname, '..', 'config.env') });
+// Load environment variables from config.env only in non-production
+if (process.env.NODE_ENV !== 'production' && !process.env.RENDER) {
+  dotenv.config({ path: path.join(__dirname, '..', 'config.env') });
+}
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
