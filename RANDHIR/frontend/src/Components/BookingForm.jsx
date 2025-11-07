@@ -18,7 +18,8 @@ function BookingForm({ car, user, onSubmit, onClose }) {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/bookings', {
+      const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${apiBase}/api/bookings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
