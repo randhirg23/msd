@@ -6,8 +6,9 @@ backend/node_modules/
 *.log
 # env files
 *.env
-backend/config.env
+RANDHIR/backend/config.env
 # local build
 dist/
 build/
+
 
